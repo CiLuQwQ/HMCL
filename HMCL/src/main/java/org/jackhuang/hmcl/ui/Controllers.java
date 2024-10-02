@@ -19,6 +19,8 @@ package org.jackhuang.hmcl.ui;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialogLayout;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.InvalidationListener;
 import javafx.beans.WeakInvalidationListener;
 import javafx.beans.property.DoubleProperty;
@@ -29,13 +31,12 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonBase;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 import org.jackhuang.hmcl.Launcher;
 import org.jackhuang.hmcl.Metadata;
 import org.jackhuang.hmcl.game.ModpackHelper;
@@ -61,6 +62,7 @@ import org.jackhuang.hmcl.util.platform.OperatingSystem;
 import java.io.File;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.jackhuang.hmcl.setting.ConfigHolder.*;
 import static org.jackhuang.hmcl.util.logging.Logger.LOG;
@@ -299,8 +301,29 @@ public final class Controllers {
             javafx.application.Platform.exit();
         });
         JFXButton noButton = new JFXButton(i18n("launcher.agreement.decline"));
-        noButton.getStyleClass().add("dialog-cancel");
-        noButton.setOnAction(e -> agreementPane.fireEvent(new DialogCloseEvent()));
+        Timeline timeline = new Timeline();
+
+        noButton.setDisable(true);
+        AtomicInteger secondsRemaining = new AtomicInteger(20);
+
+        Runnable updateText = () -> {
+            secondsRemaining.getAndDecrement();
+            if (secondsRemaining.get() > 0) {
+                noButton.setText(i18n("launcher.agreement.decline") + " (" + secondsRemaining + "秒)");
+            } else {
+                noButton.setDisable(false);
+                noButton.setText(i18n("launcher.agreement.decline"));
+            }
+        };
+        KeyFrame keyFrame = new KeyFrame(Duration.seconds(1), event -> updateText.run());
+        timeline.getKeyFrames().add(keyFrame);
+        timeline.setCycleCount(secondsRemaining.get());
+        noButton.setOnAction(e -> {
+            if (!noButton.isDisabled()) {
+                agreementPane.fireEvent(new DialogCloseEvent());
+            }
+        });
+        timeline.playFromStart();
         agreementPane.setActions(agreementLink, downloadHMCL, yesButton, noButton);
         Controllers.dialog(agreementPane);
     }

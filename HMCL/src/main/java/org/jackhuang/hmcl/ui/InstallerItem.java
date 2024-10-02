@@ -247,13 +247,6 @@ public class InstallerItem extends Control {
                         return itemVersion;
                     }
 
-                    for (InstallerItem other : incompatibleItems) {
-                        InstalledState otherVersion = other.versionProperty.get();
-                        if (otherVersion != null) {
-                            return new IncompatibleState(other.id, otherVersion.version);
-                        }
-                    }
-
                     return InstallableState.INSTANCE;
                 }, bindings));
             }

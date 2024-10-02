@@ -156,25 +156,13 @@ public final class UpdateInstallerWizardProvider implements WizardProvider {
             } else {
                 Controllers.dialog(i18n("install.failed.downloading.detail", url) + "\n" + StringUtils.getStackTrace(exception.getCause()), i18n("install.failed.downloading"), MessageDialogPane.MessageType.ERROR, next);
             }
-        } else if (exception instanceof UnsupportedInstallationException) {
-            switch (((UnsupportedInstallationException) exception).getReason()) {
-                case UnsupportedInstallationException.FORGE_1_17_OPTIFINE_H1_PRE2:
-                    Controllers.dialog(i18n("install.failed.optifine_forge_1.17"), i18n("install.failed"), MessageDialogPane.MessageType.ERROR, next);
-                    break;
-                default:
-                    Controllers.dialog(i18n("install.failed.optifine_conflict"), i18n("install.failed"), MessageDialogPane.MessageType.ERROR, next);
-                    break;
-            }
         } else if (exception instanceof DefaultDependencyManager.UnsupportedLibraryInstallerException) {
             Controllers.dialog(i18n("install.failed.install_online"), i18n("install.failed"), MessageDialogPane.MessageType.ERROR, next);
         } else if (exception instanceof ArtifactMalformedException || exception instanceof ZipException) {
             Controllers.dialog(i18n("install.failed.malformed"), i18n("install.failed"), MessageDialogPane.MessageType.ERROR, next);
         } else if (exception instanceof GameAssetIndexDownloadTask.GameAssetIndexMalformedException) {
             Controllers.dialog(i18n("assets.index.malformed"), i18n("install.failed"), MessageDialogPane.MessageType.ERROR, next);
-        } else if (exception instanceof VersionMismatchException) {
-            VersionMismatchException e = ((VersionMismatchException) exception);
-            Controllers.dialog(i18n("install.failed.version_mismatch", e.getExpect(), e.getActual()), i18n("install.failed"), MessageDialogPane.MessageType.ERROR, next);
-        } else if (exception instanceof CancellationException) {
+        }  else if (exception instanceof CancellationException) {
             // Ignore cancel
         } else {
             Controllers.dialog(StringUtils.getStackTrace(exception), i18n("install.failed"), MessageDialogPane.MessageType.ERROR, next);

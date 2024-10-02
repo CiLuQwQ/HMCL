@@ -19,7 +19,6 @@ package org.jackhuang.hmcl.download.optifine;
 
 import org.jackhuang.hmcl.download.DefaultDependencyManager;
 import org.jackhuang.hmcl.download.LibraryAnalyzer;
-import org.jackhuang.hmcl.download.UnsupportedInstallationException;
 import org.jackhuang.hmcl.download.VersionMismatchException;
 import org.jackhuang.hmcl.game.*;
 import org.jackhuang.hmcl.task.FileDownloadTask;
@@ -125,8 +124,6 @@ public final class OptiFineInstallTask extends Task<Version> {
     @Override
     public void execute() throws Exception {
         String originalMainClass = version.resolve(dependencyManager.getGameRepository()).getMainClass();
-        if (!LibraryAnalyzer.FORGE_OPTIFINE_MAIN.contains(originalMainClass))
-            throw new UnsupportedInstallationException(UnsupportedInstallationException.UNSUPPORTED_LAUNCH_WRAPPER);
 
         List<Library> libraries = new ArrayList<>(4);
         libraries.add(optiFineLibrary);
@@ -197,9 +194,6 @@ public final class OptiFineInstallTask extends Task<Version> {
 
                 if (LibraryAnalyzer.BOOTSTRAP_LAUNCHER_MAIN.equals(originalMainClass)) {
                     // OptiFine H1 Pre2+ is compatible with Forge 1.17
-                    if (buildofVer.compareTo("20210924-190833") < 0) {
-                        throw new UnsupportedInstallationException(UnsupportedInstallationException.FORGE_1_17_OPTIFINE_H1_PRE2);
-                    }
                 }
             }
         }
@@ -248,8 +242,6 @@ public final class OptiFineInstallTask extends Task<Version> {
             if (mcVersion == null || ofEdition == null || ofRelease == null)
                 throw new IOException("Unrecognized OptiFine installer");
 
-            if (!mcVersion.equals(gameVersion.get()))
-                throw new VersionMismatchException(mcVersion, gameVersion.get());
 
             return new OptiFineInstallTask(dependencyManager, version,
                     new OptiFineRemoteVersion(mcVersion, ofEdition + "_" + ofRelease, Collections.singletonList(""), false), installer);
