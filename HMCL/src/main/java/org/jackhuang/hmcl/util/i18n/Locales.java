@@ -64,37 +64,14 @@ public final class Locales {
      */
     public static final SupportedLocale JA = new SupportedLocale(Locale.JAPANESE);
 
-    public static final List<SupportedLocale> LOCALES = Lang.immutableListOf(DEFAULT, EN, ZH_CN, ZH, ES, RU, JA);
+    public static final List<SupportedLocale> LOCALES = Lang.immutableListOf(ZH_CN);
 
     public static SupportedLocale getLocaleByName(String name) {
-        if (name == null) return DEFAULT;
-        switch (name.toLowerCase(Locale.ROOT)) {
-            case "en":
-                return EN;
-            case "zh":
-                return ZH;
-            case "zh_cn":
-                return ZH_CN;
-            case "es":
-                return ES;
-            case "ru":
-                return RU;
-            case "ja":
-                return JA;
-            default:
-                return DEFAULT;
-        }
+        return ZH_CN;
     }
 
     public static String getNameByLocale(SupportedLocale locale) {
-        if (locale == EN) return "en";
-        else if (locale == ZH) return "zh";
-        else if (locale == ZH_CN) return "zh_CN";
-        else if (locale == ES) return "es";
-        else if (locale == RU) return "ru";
-        else if (locale == JA) return "ja";
-        else if (locale == DEFAULT) return "def";
-        else throw new IllegalArgumentException("Unknown locale: " + locale);
+        return "zh_CN";
     }
 
     @JsonAdapter(SupportedLocale.TypeAdapter.class)

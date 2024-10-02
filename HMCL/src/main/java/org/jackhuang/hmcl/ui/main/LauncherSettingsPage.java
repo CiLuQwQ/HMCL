@@ -74,7 +74,6 @@ public class LauncherSettingsPage extends DecoratorAnimatedPage implements Decor
                         runInFX(() -> FXUtils.installFastTooltip(settingsItem, i18n("settings.type.global.manage")));
                         settingsItem.setOnAction(e -> tab.select(gameTab));
                     })
-                    .startCategory(i18n("launcher"))
                     .addNavigationDrawerItem(settingsItem -> {
                         settingsItem.setTitle(i18n("settings.launcher.general"));
                         settingsItem.setLeftGraphic(wrap(SVG.APPLICATION_OUTLINE));
@@ -92,19 +91,6 @@ public class LauncherSettingsPage extends DecoratorAnimatedPage implements Decor
                         downloadItem.setLeftGraphic(wrap(SVG.DOWNLOAD_OUTLINE));
                         downloadItem.activeProperty().bind(tab.getSelectionModel().selectedItemProperty().isEqualTo(downloadTab));
                         downloadItem.setOnAction(e -> tab.select(downloadTab));
-                    })
-                    .startCategory(i18n("help"))
-                    .addNavigationDrawerItem(helpItem -> {
-                        helpItem.setTitle(i18n("help"));
-                        helpItem.setLeftGraphic(wrap(SVG.HELP_CIRCLE_OUTLINE));
-                        helpItem.activeProperty().bind(tab.getSelectionModel().selectedItemProperty().isEqualTo(helpTab));
-                        helpItem.setOnAction(e -> tab.select(helpTab));
-                    })
-                    .addNavigationDrawerItem(feedbackItem -> {
-                        feedbackItem.setTitle(i18n("feedback"));
-                        feedbackItem.setLeftGraphic(wrap(SVG.MESSAGE_ALERT_OUTLINE));
-                        feedbackItem.activeProperty().bind(tab.getSelectionModel().selectedItemProperty().isEqualTo(feedbackTab));
-                        feedbackItem.setOnAction(e -> tab.select(feedbackTab));
                     })
                     .addNavigationDrawerItem(aboutItem -> {
                         aboutItem.setTitle(i18n("about"));

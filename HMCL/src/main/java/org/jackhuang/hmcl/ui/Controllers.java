@@ -29,6 +29,8 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonBase;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
@@ -284,32 +286,32 @@ public final class Controllers {
             }
         }
 
-
-        if (globalConfig().getAgreementVersion() < 1) {
-            JFXDialogLayout agreementPane = new JFXDialogLayout();
-            agreementPane.setHeading(new Label(i18n("launcher.agreement")));
-            agreementPane.setBody(new Label(i18n("launcher.agreement.hint")));
-            JFXHyperlink agreementLink = new JFXHyperlink(i18n("launcher.agreement"));
-            agreementLink.setExternalLink(Metadata.EULA_URL);
-            JFXButton yesButton = new JFXButton(i18n("launcher.agreement.accept"));
-            yesButton.getStyleClass().add("dialog-accept");
-            yesButton.setOnAction(e -> {
-                globalConfig().setAgreementVersion(1);
-                agreementPane.fireEvent(new DialogCloseEvent());
-            });
-            JFXButton noButton = new JFXButton(i18n("launcher.agreement.decline"));
-            noButton.getStyleClass().add("dialog-cancel");
-            noButton.setOnAction(e -> javafx.application.Platform.exit());
-            agreementPane.setActions(agreementLink, yesButton, noButton);
-            Controllers.dialog(agreementPane);
-        }
+        JFXDialogLayout agreementPane = new JFXDialogLayout();
+        agreementPane.setHeading(new Label(i18n("launcher.agreement")));
+        agreementPane.setBody(new Label(i18n("launcher.agreement.hint")));
+        JFXHyperlink agreementLink = new JFXHyperlink(i18n("launcher.agreement1"));
+        JFXHyperlink downloadHMCL = new JFXHyperlink(i18n("launcher.downloadHMCL"));
+        agreementLink.setExternalLink(Metadata.EULA_URL);
+        downloadHMCL.setExternalLink("https://github.com/HMCL-dev/HMCL/");
+        JFXButton yesButton = new JFXButton(i18n("launcher.agreement.accept"));
+        yesButton.getStyleClass().add("dialog-accept");
+        yesButton.setOnAction(e -> {
+            javafx.application.Platform.exit();
+        });
+        JFXButton noButton = new JFXButton(i18n("launcher.agreement.decline"));
+        noButton.getStyleClass().add("dialog-cancel");
+        noButton.setOnAction(e -> agreementPane.fireEvent(new DialogCloseEvent()));
+        agreementPane.setActions(agreementLink, downloadHMCL, yesButton, noButton);
+        Controllers.dialog(agreementPane);
     }
-
     public static void dialog(Region content) {
         if (decorator != null)
             decorator.showDialog(content);
     }
-
+    static boolean a;
+    public static boolean geta(){
+        return a;
+    }
     public static void dialog(String text) {
         dialog(text, null);
     }

@@ -35,14 +35,14 @@ public class AboutPage extends StackPane {
         {
             IconedTwoLineListItem launcher = new IconedTwoLineListItem();
             launcher.setImage(FXUtils.newBuiltinImage("/assets/img/icon.png"));
-            launcher.setTitle("Hello Minecraft! Launcher");
-            launcher.setSubtitle(Metadata.VERSION);
+            launcher.setTitle("Hello CraftMine Launcher");
+            launcher.setSubtitle("基于Hello Minecraft! Launcher二次开发的软件");
             launcher.setExternalLink("https://hmcl.huangyuhui.net");
 
             IconedTwoLineListItem author = new IconedTwoLineListItem();
             author.setImage(FXUtils.newBuiltinImage("/assets/img/yellow_fish.png"));
             author.setTitle("huanghongxun");
-            author.setSubtitle(i18n("about.author.statement"));
+            author.setSubtitle(i18n("Hello Minecraft! Launcher项目的领导者"));
             author.setExternalLink("https://space.bilibili.com/1445341");
 
             about.getContent().setAll(launcher, author);

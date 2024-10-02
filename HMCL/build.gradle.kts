@@ -22,10 +22,10 @@ val buildNumber = System.getenv("BUILD_NUMBER")?.toInt().let { number ->
     } else {
         val shortCommit = System.getenv("GITHUB_SHA")?.lowercase()?.substring(0, 7)
         val prefix = if (isOfficial) "dev" else "unofficial"
-        if (!shortCommit.isNullOrEmpty()) "$prefix-$shortCommit" else "SNAPSHOT"
+        if (!shortCommit.isNullOrEmpty()) "$prefix-$shortCommit" else "1"
     }
 }
-val versionRoot = System.getenv("VERSION_ROOT") ?: "3.5"
+val versionRoot = System.getenv("VERSION_ROOT") ?: "127.0.0"
 val versionType = System.getenv("VERSION_TYPE") ?: if (isOfficial) "nightly" else "unofficial"
 
 val microsoftAuthId = System.getenv("MICROSOFT_AUTH_ID") ?: ""
